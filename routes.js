@@ -43,10 +43,9 @@ else{
     res.write('</html>');
     res.end();
 }
-    
-
-
 };
-module.exports=requestHandler;
 
-    
+module.exports={
+    handler:requestHandler,
+    sometext:'some hard code'
+};

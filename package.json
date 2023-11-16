@@ -1,0 +1,16 @@
+{
+  "name": "backend_creating_server",
+  "version": "1.0.0",
+  "description": "npm",
+  "main": "routes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon routing.js",
+    "start-server": "node routing.js"
+  },
+  "author": "Aksshaya",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
