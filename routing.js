@@ -1,6 +1,16 @@
-const http=require('http');
-const routes=require('./routes');
-console.log(routes.sometext);
-const server=http.createServer(routes.handler);
 
-server.listen(3002);
+const express= require('express');
+
+const app=express();
+app.use((req,res,next)=>{
+    console.log("middleware1");
+    next();
+});
+
+app.use((req,res,next)=>{
+    console.log("middleware3");
+    res.send('<h1>hello to nodejs</h1>')
+});
+
+
+app.listen(3002);
