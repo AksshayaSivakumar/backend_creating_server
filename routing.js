@@ -1,24 +1,53 @@
-
 const express= require('express');
 
-const bodyparser=require('body-parser');
+const fs=require('fs');
+
+const bodyParser=require('body-parser');
 
 const app=express();
 
 
-const adminRoutes=require('./routes/admin');
+app.use(bodyParser.urlencoded({extended:false}));
 
-const shopRoutes=require('./routes/shop');
+app.get('/',(req,res)=>{
+    fs.readFile('username.txt',(err,data)=>{
+        if(err)
+        {
+            console.log(err);
+            data= 'no chat exist'
+        }
+   
+    
+    res.send(`${data} <form action="/" onsubmit= "document.getElementById('username').value=localStorage.getItem('username')" method="POST"> 
+    <input type="text" id="message"  name="message">
+    <input  type="hidden" id="username" name="username">
+    <button type="submit">send</button></form>`)
+
+    
+}) 
+ });
 
 
-app.use(bodyparser.urlencoded({extended:false}));
+ app.post('/',(req,res)=>{
+    
+   
+     fs.writeFile('username.txt',`${req.body.username}:${req.body.message}`,{flag:'a'},(err)=>
+     err?console.log(err):res.redirect('/'));
+});
 
-app.use('/admin',adminRoutes);
+app.get('/login',(req,res)=>{
+res.send(`<form action="/login" method="POST" onsubmit="localStorage.setItem('username', document.getElementById('username').value)" >
+<input id="username" type="text" name="username">
 
-app.use('/shop',shopRoutes);
+<button type="submit">add</button></form>`)
+});
 
-app.use((req,res,next)=>{
-    res.status(404).send('<h2>Page not found</h2>')
+app.post('/login',(req,res)=>{
+    
+    console.log(`${req.body.username}`)
+    fs.writeFile('username.txt',` `,(err)=>
+     err?console.log(err):res.redirect('/'));
+     
 });
 
 

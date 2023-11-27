@@ -1,16 +1,23 @@
 const express=require('express');
 
+const data=require('./data')
+
 const router=express.Router();
 
 
-router.get('/add-product',(req,res,next)=>{
+router.get('/',(req,res,next)=>{
     
-   res.send('<form action="/admin/product" method="post"><input type="text" name="title" placeholder="add product"><input type="text" name="title" placeholder="add size"><button type="submit">submit</button><br><br></form>')
+   res.send(`<form action="/" onsubmit= "document.getElementById('username').value)=localStorage.getItem('username')"  method="POST"> 
+   <input id="message" type="text" name"message placeholder="message">
+   <input id="username" type="text" name="username">
+   <button type="submit">send</button></form>`)
    
 });
 
-router.post('/product',(req,res,next)=>{
-    console.log(req.body);
+router.post('/',(req,res,next)=>{
+    data.push(`${req.body.username}:${req.body.message}`)
+    console.log(data);
+    console.log(`${req.body.username}:${req.body.message}`)
     res.redirect('/');
 })
 
