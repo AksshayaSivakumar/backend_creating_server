@@ -1,54 +1,26 @@
-const express= require('express');
+const path=require('path');
 
-const fs=require('fs');
+const express= require('express');
 
 const bodyParser=require('body-parser');
 
-const app=express();
+const login=require('./messages/login');
+const chat=require('./messages/chat');
+const contactus=require('./messages/contactus');
+const success=require('./messages/success');
 
+const app=express();
 
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.get('/',(req,res)=>{
-    fs.readFile('username.txt',(err,data)=>{
-        if(err)
-        {
-            console.log(err);
-            data= 'no chat exist'
-        }
-   
+app.use(login);
+app.use(chat);
+app.use(contactus);
+app.use(success);
+
+app.use((req,res)=>{
+    res.status(404).sendFile(path.join(__dirname,'views','404.html'))
     
-    res.send(`${data} <form action="/" onsubmit= "document.getElementById('username').value=localStorage.getItem('username')" method="POST"> 
-    <input type="text" id="message"  name="message">
-    <input  type="hidden" id="username" name="username">
-    <button type="submit">send</button></form>`)
-
-    
-}) 
- });
-
-
- app.post('/',(req,res)=>{
-    
-   
-     fs.writeFile('username.txt',`${req.body.username}:${req.body.message}`,{flag:'a'},(err)=>
-     err?console.log(err):res.redirect('/'));
-});
-
-app.get('/login',(req,res)=>{
-res.send(`<form action="/login" method="POST" onsubmit="localStorage.setItem('username', document.getElementById('username').value)" >
-<input id="username" type="text" name="username">
-
-<button type="submit">add</button></form>`)
-});
-
-app.post('/login',(req,res)=>{
-    
-    console.log(`${req.body.username}`)
-    fs.writeFile('username.txt',` `,(err)=>
-     err?console.log(err):res.redirect('/'));
-     
-});
-
+})
 
 app.listen(3002);

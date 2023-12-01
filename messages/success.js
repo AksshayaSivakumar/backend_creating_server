@@ -2,9 +2,8 @@ const express=require('express');
 
 const router=express.Router();
 
-router.get('/',(req,res,next)=>{
-    
-    res.send('<h1>hello to nodejs</h1>')
+router.get('/success',(req,res)=>{
+  res.send('<h2>Form successfully filled</h2>');
 });
 
 module.exports=router;
