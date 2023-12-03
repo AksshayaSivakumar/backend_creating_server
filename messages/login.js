@@ -1,21 +1,15 @@
-const path=require('path');
 
-const rootDir=require('../util/path');
-const fs=require('fs');
 const express=require('express');
+
+const logincontroller=require('../controllers/loginpage');
+
+
 
 const router=express.Router();
 
 
-router.get('/login',(req,res)=>{
-    res.sendFile(path.join(rootDir,'views','login.html'));
-    });
+router.get('/login',logincontroller.getlogin);
     
-router.post('/login',(req,res)=>{
-        
-        console.log(`${req.body.username}`)
-        fs.writeFile('username.txt',` `,(err)=>
-         err?console.log(err):res.redirect('/chat'));
-         
-    });
+router.post('/login',logincontroller.postlogin);
+
 module.exports=router;
